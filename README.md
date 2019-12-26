@@ -7,7 +7,8 @@
 
    ### Recording a shop
    To record the prices at a shop first you need to warp the shop then run `/sm startrec <shopname>` shop name should be the name of   
-   the shop or warp to goto the shop to save what you have recorded you must run `/sm stoprec`
+   the shop or warp to goto the shop to save what you have recorded you must run `/sm stoprec`. When recording a shop to try and    
+   prevend recording unreachable signs it onle record rendered signs so turn around to make shure all signs in a shop are recorded.
    
    ### Updating a shop
    If prices change or a item has ben added.removed you will need to update the recording of that shop to do that just run 
