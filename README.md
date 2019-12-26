@@ -20,11 +20,11 @@
    To find buy and sell prices for an item you un `/sm <buy|sell> {itemid|hand} {quantity}` hand will use the item you are holding in        your main hand,item id needs the internal minecraft id for exampls `iron_ingot,oak_log`
   
 ## Supported sign types 
-  This was made for a plugin called chestshop where the formattion for a sign is:
-    1. username of the player
-    2. quantity being sold
-    3. s3:b5 (s=sell,b=buy)
-    4. item name truncated to fit on a sign
+  This was made for a plugin called chestshop where the formattion for a sign is:\
+    1. username of the player\
+    2. quantity being sold\
+    3. s3:b5 (s=sell,b=buy)\
+    4. item name truncated to fit on a sign\
   it may not work correctly for other plugins if you make a issue and provide detail about the formatting and pictures, i will try and 
   add more.
 
