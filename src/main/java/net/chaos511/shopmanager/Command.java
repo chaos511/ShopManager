@@ -178,15 +178,18 @@ public class Command {
             returnstr.append(quantity).append("x").append(itemName).append("\n");
             prefixlen = returnstr.length();
             for (JsonElement shop:ShopManager.savedServer.getAsJsonArray("shops")) {
-                for (JsonElement item:((JsonObject)shop).getAsJsonArray("items")) {
-                    try {
-                        if (((JsonObject) item).get("itemName").getAsString().equals(itemName) && !((JsonObject) item).get("sellPrice").getAsString().isEmpty()) {
-                            System.out.println("found: " + itemName + " @ shop: " + ((JsonObject) shop).get("shopName").getAsString() + " item: " + ((JsonObject) item).toString());
-                            prices.add(getSellPriceperitem(item));
-                            pricesunsorted.add(getSellPriceperitem(item));
-                            items.add(df.format(getSellPriceperitem(item) * quantity) + " coins@[" + df.format(getSellPriceperitem(item)) + " per] shop amount:" + ((JsonObject) item).get("itemAmount").getAsString() + " @ shop: " + ((JsonObject) shop).get("shopName").getAsString() + "\n");
+                if(((JsonObject)shop).has("items")) {
+                    for (JsonElement item : ((JsonObject) shop).getAsJsonArray("items")) {
+                        try {
+                            if (((JsonObject) item).get("itemName").getAsString().equals(itemName) && !((JsonObject) item).get("sellPrice").getAsString().isEmpty()) {
+                                System.out.println("found: " + itemName + " @ shop: " + ((JsonObject) shop).get("shopName").getAsString() + " item: " + ((JsonObject) item).toString());
+                                prices.add(getSellPriceperitem(item));
+                                pricesunsorted.add(getSellPriceperitem(item));
+                                items.add(df.format(getSellPriceperitem(item) * quantity) + " coins@[" + df.format(getSellPriceperitem(item)) + " per] shop amount:" + ((JsonObject) item).get("itemAmount").getAsString() + " @ shop: " + ((JsonObject) shop).get("shopName").getAsString() + "\n");
+                            }
+                        } catch (Exception ignore) {
                         }
-                    }catch (Exception ignore){}
+                    }
                 }
             }
         }
@@ -219,14 +222,17 @@ public class Command {
                 returnstr.append(quantity).append("x").append(itemName).append("\n");
                 prefixlen = returnstr.length();
                 for (JsonElement shop : ShopManager.savedServer.getAsJsonArray("shops")) {
-                    for (JsonElement item : ((JsonObject) shop).getAsJsonArray("items")) {
-                        try {
-                            if (((JsonObject) item).get("itemName").getAsString().equals(itemName) && !((JsonObject) item).get("buyPrice").getAsString().isEmpty()) {
-                                prices.add(getBuyPriceperitem(item));
-                                pricesunsorted.add(getBuyPriceperitem(item));
-                                items.add(df.format(getBuyPriceperitem(item) * quantity) + " coins@[" + df.format(getBuyPriceperitem(item)) + " per] shop amount:" + ((JsonObject) item).get("itemAmount").getAsString() + " @ shop: " + ((JsonObject) shop).get("shopName").getAsString() + "\n");
+                    if(((JsonObject)shop).has("items")) {
+                        for (JsonElement item : ((JsonObject) shop).getAsJsonArray("items")) {
+                            try {
+                                if (((JsonObject) item).get("itemName").getAsString().equals(itemName) && !((JsonObject) item).get("buyPrice").getAsString().isEmpty()) {
+                                    prices.add(getBuyPriceperitem(item));
+                                    pricesunsorted.add(getBuyPriceperitem(item));
+                                    items.add(df.format(getBuyPriceperitem(item) * quantity) + " coins@[" + df.format(getBuyPriceperitem(item)) + " per] shop amount:" + ((JsonObject) item).get("itemAmount").getAsString() + " @ shop: " + ((JsonObject) shop).get("shopName").getAsString() + "\n");
+                                }
+                            } catch (Exception ignore) {
                             }
-                        }catch (Exception ignore){}
+                        }
                     }
                 }
             }
