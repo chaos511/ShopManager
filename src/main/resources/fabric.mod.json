@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "shopmanager",
+  "version": "${version}",
+
+  "name": "Shop Manager",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "chaoslord511"
+  ],
+  "contact": {
+    "homepage": "https://github.com/chaos511",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/shopmanager/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.chaos511.shopmanager.ShopManager"
+    ]
+  },
+  "mixins": [
+    "shopmanager.mixins.json"
+  ]
+
+}

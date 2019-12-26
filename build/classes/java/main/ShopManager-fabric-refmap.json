@@ -1,0 +1,22 @@
+{
+  "mappings": {
+    "net/chaos511/shopmanager/mixin/ClientConnectionMixin": {
+      "send(Lnet/minecraft/network/Packet;Lio/netty/util/concurrent/GenericFutureListener;)V": "Lnet/minecraft/class_2535;method_10752(Lnet/minecraft/class_2596;Lio/netty/util/concurrent/GenericFutureListener;)V"
+    },
+    "net/chaos511/shopmanager/mixin/SignBlockEntityRendererMixin": {
+      "method_3582": "Lnet/minecraft/class_837;method_3582(Lnet/minecraft/class_2625;DDDFI)V",
+      "getModelTexture": "Lnet/minecraft/class_837;method_3584(Lnet/minecraft/class_2248;)Lnet/minecraft/class_2960;"
+    }
+  },
+  "data": {
+    "named:intermediary": {
+      "net/chaos511/shopmanager/mixin/ClientConnectionMixin": {
+        "send(Lnet/minecraft/network/Packet;Lio/netty/util/concurrent/GenericFutureListener;)V": "Lnet/minecraft/class_2535;method_10752(Lnet/minecraft/class_2596;Lio/netty/util/concurrent/GenericFutureListener;)V"
+      },
+      "net/chaos511/shopmanager/mixin/SignBlockEntityRendererMixin": {
+        "method_3582": "Lnet/minecraft/class_837;method_3582(Lnet/minecraft/class_2625;DDDFI)V",
+        "getModelTexture": "Lnet/minecraft/class_837;method_3584(Lnet/minecraft/class_2248;)Lnet/minecraft/class_2960;"
+      }
+    }
+  }
+}

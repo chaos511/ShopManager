@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "net.chaos511.shopmanager.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "SignBlockEntityRendererMixin",
+    "ClientConnectionMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
