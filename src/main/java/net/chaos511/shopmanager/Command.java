@@ -8,6 +8,10 @@ import net.minecraft.util.registry.Registry;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class Command {
@@ -163,7 +167,11 @@ public class Command {
         return "This should never be returned";
     }
     private static String getSellPrice(Item itemtofind,int quantity){
+        try {
         StringBuilder returnstr=new StringBuilder();
+        List<Float> prices=new ArrayList<>();
+        List<Float> pricesunsorted=new ArrayList<>();
+        List<String> items=new ArrayList<>();
         String itemName=Util.getName(itemtofind.getStackForRender(),Util.getStringWidth("---------------"));
         int prefixlen=0;
         if (ShopManager.saveserver()){
@@ -171,38 +179,74 @@ public class Command {
             prefixlen = returnstr.length();
             for (JsonElement shop:ShopManager.savedServer.getAsJsonArray("shops")) {
                 for (JsonElement item:((JsonObject)shop).getAsJsonArray("items")) {
-                    if (((JsonObject)item).get("itemName").getAsString().equals(itemName)&&!((JsonObject)item).get("sellPrice").getAsString().isEmpty()){
-                        System.out.println("found: "+itemName+" @ shop: "+((JsonObject) shop).get("shopName").getAsString()+" item: "+((JsonObject)item).toString());
-                        returnstr.append(df.format(getSellPriceperitem(item) * quantity)).append(" coins@[").append(df.format(getSellPriceperitem(item))).append(" per] shop amount:"+((JsonObject) item).get("itemAmount").getAsString()+" @ shop: ").append(((JsonObject) shop).get("shopName").getAsString()).append("\n");
+                    try {
+                        if (((JsonObject) item).get("itemName").getAsString().equals(itemName) && !((JsonObject) item).get("sellPrice").getAsString().isEmpty()) {
+                            System.out.println("found: " + itemName + " @ shop: " + ((JsonObject) shop).get("shopName").getAsString() + " item: " + ((JsonObject) item).toString());
+                            prices.add(getSellPriceperitem(item));
+                            pricesunsorted.add(getSellPriceperitem(item));
+                            items.add(df.format(getSellPriceperitem(item) * quantity) + " coins@[" + df.format(getSellPriceperitem(item)) + " per] shop amount:" + ((JsonObject) item).get("itemAmount").getAsString() + " @ shop: " + ((JsonObject) shop).get("shopName").getAsString() + "\n");
+                        }
+                    }catch (Exception ignore){}
+                }
+            }
+        }
+        if (items.size()==0){
+            returnstr.append("Found at no shops");
+        }else{
+            prices.sort(Collections.reverseOrder());
+            for (int x=0;x<prices.size();x++){
+                for (int y=0;y<pricesunsorted.size();y++){
+                    if (prices.get(x).equals(pricesunsorted.get(y))){
+                        returnstr.append(items.get(y));
                     }
                 }
             }
         }
-        if (returnstr.length()==prefixlen){
-            returnstr.append("Found at no shops");
-        }
         return returnstr.toString();
+    }catch (Exception e){
+        return "Exception: "+e;
     }
+}
     private static String getBuyPrice(Item itemtofind,int quantity){
-        StringBuilder returnstr=new StringBuilder();
-        String itemName=Util.getName(itemtofind.getStackForRender(),Util.getStringWidth("---------------"));
-        int prefixlen = 0;
-        if (ShopManager.saveserver()){
-            returnstr.append(quantity).append("x").append(itemName).append("\n");
-            prefixlen=returnstr.length();
-            for (JsonElement shop:ShopManager.savedServer.getAsJsonArray("shops")) {
-                for (JsonElement item:((JsonObject)shop).getAsJsonArray("items")) {
-                    if (((JsonObject)item).get("itemName").getAsString().equals(itemName)&&!((JsonObject)item).get("buyPrice").getAsString().isEmpty()){
-                        System.out.println("found: "+itemName+" @ shop: "+((JsonObject) shop).get("shopName").getAsString()+" item: "+((JsonObject)item).toString());
-                        returnstr.append(df.format(getBuyPriceperitem(item) * quantity)).append(" coins@[").append(df.format(getBuyPriceperitem(item))).append(" per] shop amount:"+((JsonObject) item).get("itemAmount").getAsString()+" @ shop: ").append(((JsonObject) shop).get("shopName").getAsString()).append("\n");
+        try {
+            StringBuilder returnstr = new StringBuilder();
+            List<Float> prices = new ArrayList<>();
+            List<Float> pricesunsorted = new ArrayList<>();
+            List<String> items = new ArrayList<>();
+            String itemName = Util.getName(itemtofind.getStackForRender(), Util.getStringWidth("---------------"));
+            int prefixlen = 0;
+            if (ShopManager.saveserver()) {
+                returnstr.append(quantity).append("x").append(itemName).append("\n");
+                prefixlen = returnstr.length();
+                for (JsonElement shop : ShopManager.savedServer.getAsJsonArray("shops")) {
+                    for (JsonElement item : ((JsonObject) shop).getAsJsonArray("items")) {
+                        try {
+                            if (((JsonObject) item).get("itemName").getAsString().equals(itemName) && !((JsonObject) item).get("buyPrice").getAsString().isEmpty()) {
+                                prices.add(getBuyPriceperitem(item));
+                                pricesunsorted.add(getBuyPriceperitem(item));
+                                items.add(df.format(getBuyPriceperitem(item) * quantity) + " coins@[" + df.format(getBuyPriceperitem(item)) + " per] shop amount:" + ((JsonObject) item).get("itemAmount").getAsString() + " @ shop: " + ((JsonObject) shop).get("shopName").getAsString() + "\n");
+                            }
+                        }catch (Exception ignore){}
                     }
                 }
             }
+            if (items.size() == 0) {
+                returnstr.append("Found at no shops");
+            } else {
+                Collections.sort(prices);
+                for (int x = 0; x < prices.size(); x++) {
+                    for (int y = 0; y < pricesunsorted.size(); y++) {
+                        if (prices.get(x).equals(pricesunsorted.get(y))) {
+                            returnstr.append(items.get(y));
+                        }
+                    }
+                }
+            }
+            return returnstr.toString();
+        }catch (Exception e){
+            return "Exception: "+e;
         }
-        if (returnstr.length()==prefixlen){
-            returnstr.append("Found at no shops");
-        }
-        return returnstr.toString();
+
     }
 
     static float getSellPriceperitem(JsonElement item){
