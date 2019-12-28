@@ -172,10 +172,12 @@ public class Command {
         List<Float> prices=new ArrayList<>();
         List<Float> pricesunsorted=new ArrayList<>();
         List<String> items=new ArrayList<>();
-        String itemName=Util.getName(itemtofind.getStackForRender(),Util.getStringWidth("---------------"));
+        List<Integer> addedindexs =new ArrayList<>();
+
+            String itemName=Util.getName(itemtofind.getStackForRender(),Util.getStringWidth("---------------"));
         int prefixlen=0;
         if (ShopManager.saveserver()){
-            returnstr.append(quantity).append("x").append(itemName).append("\n");
+            returnstr.append(quantity).append(" x ").append(itemName).append("\n");
             prefixlen = returnstr.length();
             for (JsonElement shop:ShopManager.savedServer.getAsJsonArray("shops")) {
                 if(((JsonObject)shop).has("items")) {
@@ -196,11 +198,13 @@ public class Command {
         if (items.size()==0){
             returnstr.append("Found at no shops");
         }else{
+
             prices.sort(Collections.reverseOrder());
-            for (int x=0;x<prices.size();x++){
-                for (int y=0;y<pricesunsorted.size();y++){
-                    if (prices.get(x).equals(pricesunsorted.get(y))){
+            for (Float price : prices) {
+                for (int y = 0; y < pricesunsorted.size(); y++) {
+                    if (price.equals(pricesunsorted.get(y))&&!addedindexs.contains(y)) {
                         returnstr.append(items.get(y));
+                        addedindexs.add(y);
                     }
                 }
             }
@@ -216,10 +220,12 @@ public class Command {
             List<Float> prices = new ArrayList<>();
             List<Float> pricesunsorted = new ArrayList<>();
             List<String> items = new ArrayList<>();
+            List<Integer> addedindexs =new ArrayList<>();
+
             String itemName = Util.getName(itemtofind.getStackForRender(), Util.getStringWidth("---------------"));
             int prefixlen = 0;
             if (ShopManager.saveserver()) {
-                returnstr.append(quantity).append("x").append(itemName).append("\n");
+                returnstr.append(quantity).append(" x ").append(itemName).append("\n");
                 prefixlen = returnstr.length();
                 for (JsonElement shop : ShopManager.savedServer.getAsJsonArray("shops")) {
                     if(((JsonObject)shop).has("items")) {
@@ -240,10 +246,11 @@ public class Command {
                 returnstr.append("Found at no shops");
             } else {
                 Collections.sort(prices);
-                for (int x = 0; x < prices.size(); x++) {
+                for (Float price : prices) {
                     for (int y = 0; y < pricesunsorted.size(); y++) {
-                        if (prices.get(x).equals(pricesunsorted.get(y))) {
+                        if (price.equals(pricesunsorted.get(y))&&!addedindexs.contains(y)) {
                             returnstr.append(items.get(y));
+                            addedindexs.add(y);
                         }
                     }
                 }
