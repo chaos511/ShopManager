@@ -67,11 +67,53 @@ public class Command {
         int amount=1;
         switch (getcommandindex(command)){
             case 0://list
-                if (ShopManager.serversJson !=null){
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    return gson.toJson(ShopManager.serversJson);
-                }else {
-                    return "Server List null";
+                if (args.length==3||args.length==4) {
+                    if (ShopManager.serversJson != null&&ShopManager.saveserver()) {
+                        if (args[2].equalsIgnoreCase("shops")){
+                            StringBuilder shopnames=new StringBuilder();
+                            for (JsonElement shop:ShopManager.savedServer.getAsJsonArray("shops")) {
+                                if(((JsonObject)shop).has("shopName")){
+                                    shopnames.append(((JsonObject) shop).get("shopName").getAsString());
+                                    shopnames.append(" ");
+                                    if (((JsonObject)shop).has("items")) {
+                                        shopnames.append(((JsonObject) shop).getAsJsonArray("items").size());
+                                    }else{
+                                        shopnames.append(0);
+                                    }
+                                    shopnames.append(" Items \n");
+                                }
+                            }
+                            if (shopnames.toString().length()<1){
+                                return "No shops found";
+
+                            }
+                            return String.valueOf(shopnames);
+
+                        }else if (args[2].equalsIgnoreCase("items")){
+                            if (args.length==3){return "shopname required";}
+                            StringBuilder itemnames=new StringBuilder();
+                            for (JsonElement shop:ShopManager.savedServer.getAsJsonArray("shops")) {
+                                if(((JsonObject)shop).has("shopName")&&((JsonObject)shop).get("shopName").getAsString().replaceAll("\"","").equalsIgnoreCase(args[3])&&((JsonObject) shop).has("items")){
+                                    for (JsonElement Item : ((JsonObject) shop).getAsJsonArray("items")) {
+                                        itemnames.append(((JsonObject)Item).get("itemName").getAsString());
+                                        itemnames.append("\n");
+                                    }
+                                }
+                            }
+                            if (itemnames.toString().length()<1){
+                                return "No items found";
+
+                            }
+                            return String.valueOf(itemnames);
+                        }else{
+                            return "Usage: /sm list <Shops|Items> {Shopname}";
+                        }
+                    } else {
+                        return "No shops found";
+                    }
+                }else{
+                    return "Usage: /sm list <Shops|Items> {Shopname}";
+
                 }
             case 1://startrec
                 if (argsAsString.toString().length()>0) {
@@ -110,14 +152,13 @@ public class Command {
                         item=MinecraftClient.getInstance().player.getMainHandStack().getItem();
                         amount = MinecraftClient.getInstance().player.getMainHandStack().getCount();
                     }else{
-
                         item = Registry.ITEM.get(new Identifier(args[2]));
-                        if (item.getName().toString().equalsIgnoreCase("air")) {
+                        if (item.getName().asString().equalsIgnoreCase("air")) {
                             return "invalid item id: " + args[2];
                         }
-
-                        System.out.println(item);
+                        System.out.println("itemname: "+item.getName().asString());
                     }
+
 
                     if (args.length==4) {
                         try {
@@ -142,11 +183,13 @@ public class Command {
                         amount = MinecraftClient.getInstance().player.getMainHandStack().getCount();
                     }else{
                         item = Registry.ITEM.get(new Identifier(args[2]));
-                        if (item.getName().toString().equalsIgnoreCase("air")) {
+                        if (item.getName().asString().equalsIgnoreCase("air")) {
                             return "invalid item id: " + args[2];
                         }
-                        System.out.println(item);
+                        System.out.println("itemname: "+item.getName().asString());
                     }
+
+
 
                     if (args.length==4) {
                         try {
