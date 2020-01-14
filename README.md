@@ -19,7 +19,9 @@
    
    ### Searching for an item
    To find buy and sell prices for an item you un `/sm <buy|sell> {itemid|hand} {quantity}` hand will use the item you are holding in        your main hand,item id needs the internal minecraft id for exampls `iron_ingot,oak_log`
-  
+
+![Alt text](/Capture.PNG?raw=true )
+
 ## Supported sign types 
   This was made for a plugin called chestshop where the formattion for a sign is:\
     1. username of the player\
