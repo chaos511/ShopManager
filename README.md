@@ -19,6 +19,8 @@
    
    ### Searching for an item
    To find buy and sell prices for an item you un `/sm <buy|sell> {itemid|hand} {quantity}` hand will use the item you are holding in        your main hand,item id needs the internal minecraft id for exampls `iron_ingot,oak_log`
+   
+   
 (total cost) (price per item) (listed quantity) (shopname)
 ![Alt text](/Capture.PNG?raw=true )
 
