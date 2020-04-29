@@ -1,6 +1,6 @@
 # ShopManager
 
-## instalation
+## Instalation
   This mod requires fabrc to be installed more in that here:https://fabricmc.net/, After that just drop the jar from the releases page in your mods folder
   
 ## Usage
