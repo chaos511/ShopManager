@@ -36,7 +36,7 @@
   When recording a shop the texture of a sign is changed if the sign is detecded as a valid sign it will have the texture of oak,
   invalid will use the dark oak texture
 
-## Q/A
+## FAQ
   ### Will this work for multiple servers?
   Yes, When you record a shop it save what the server ip is and when you search for prices it will only show shops on that servers ip
   
